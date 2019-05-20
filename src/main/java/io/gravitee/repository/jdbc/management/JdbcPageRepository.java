@@ -20,9 +20,7 @@ import io.gravitee.repository.jdbc.orm.JdbcColumn;
 import io.gravitee.repository.jdbc.orm.JdbcObjectMapper;
 import io.gravitee.repository.management.api.PageRepository;
 import io.gravitee.repository.management.api.search.PageCriteria;
-import io.gravitee.repository.management.model.Page;
-import io.gravitee.repository.management.model.PageSource;
-import io.gravitee.repository.management.model.PageType;
+import io.gravitee.repository.management.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
@@ -52,12 +50,13 @@ public class JdbcPageRepository extends JdbcAbstractCrudRepository<Page, String>
 
     private static final JdbcObjectMapper ORM = JdbcObjectMapper.builder(Page.class, "pages", "id")
             .addColumn("id", Types.NVARCHAR, String.class)
+            .addColumn("reference_type", Types.NVARCHAR, PageReferenceType.class)
+            .addColumn("reference_id", Types.NVARCHAR, String.class)
             .addColumn("type", Types.NVARCHAR, PageType.class)
             .addColumn("name", Types.NVARCHAR, String.class)
             .addColumn("content", Types.NVARCHAR, String.class)
             .addColumn("last_contributor", Types.NVARCHAR, String.class)
             .addColumn("order", Types.INTEGER, int.class)
-            .addColumn("api", Types.NVARCHAR, String.class)
             .addColumn("published", Types.BOOLEAN, boolean.class)
             .addColumn("homepage", Types.BOOLEAN, boolean.class)
             .addColumn("created_at", Types.TIMESTAMP, Date.class)

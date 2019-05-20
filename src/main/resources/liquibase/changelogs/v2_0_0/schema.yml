@@ -1,0 +1,27 @@
+databaseChangeLog:
+    - changeSet:
+        id: 2.0.0
+        author: GraviteeSource Team
+        changes:
+          - addColumn:
+              tableName: pages
+              columns:
+                - column:
+                    name: reference_id
+                    type: nvarchar(64)
+                    constraints.nullable: false
+                - column:
+                    name: reference_type
+                    type: nvarchar(32)
+                    constraints:
+                      nullable: false
+
+          - sql:
+              sql: update pages set reference_type='API', reference_id=api where api is not null
+          - sql:
+              sql: update pages set reference_type='ENVIRONMENT', reference_id='DEFAULT' where api is null
+
+
+          - dropColumn:
+              columnName: api
+              tableName: pages
